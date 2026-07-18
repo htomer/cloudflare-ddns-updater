@@ -16,7 +16,7 @@ RUN chmod 0600 /etc/crontabs/root
 RUN mkdir cloudflare
 
 # Create script.
-COPY cloudflare.sh /cloudflare/cloudflare.sh
+COPY upstream/cloudflare-template.sh /cloudflare/cloudflare.sh
 RUN chmod 0744 /cloudflare/cloudflare.sh
 
 # Create entrypoint.
@@ -24,6 +24,6 @@ COPY entrypoint.sh /cloudflare/entrypoint.sh
 RUN chmod 0744 /cloudflare/entrypoint.sh
 
 # Disable imklog. 
-RUN sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
+RUN sed -i -e '/imkmsg/s/^/#/' -e '/imklog/s/^/#/' /etc/rsyslog.conf
 
 ENTRYPOINT ["/cloudflare/entrypoint.sh"]
